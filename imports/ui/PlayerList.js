@@ -1,10 +1,21 @@
-import React       from 'react';
-import ReactDOM    from 'react-dom';
-import { Players } from './../../imports/api/players';
-import Player      from './Player';
-import PropTypes   from 'prop-types';
+import React from 'react';
+import PropTypes from 'prop-types';
+import Player from './Player';
 
 export default class PlayerList extends React.Component {
+  renderPlayers() {
+    if (this.props.players.length === 0) {
+      return (
+        <div className="item">
+          <p className="item__message">Add your first player to get started!</p>
+        </div>
+      );
+    } else {
+      return this.props.players.map((player) => {
+        return <Player key={player._id} player={player}/>;
+      });
+    }
+  }
   render() {
     return (
       <div>
@@ -12,20 +23,8 @@ export default class PlayerList extends React.Component {
       </div>
     );
   }
-
-  renderPlayers() {
-    if (this.props.players.length === 0) {
-      return (
-        <p>
-          Add your first player to get started!
-        </p>
-      );
-    } else {
-      return this.props.players.map(player => <Player key={player._id} player={player}/>)
-    }
-  }
-}
+};
 
 PlayerList.propTypes = {
   players: PropTypes.array.isRequired
-};
+}

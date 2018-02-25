@@ -1,22 +1,34 @@
-import React       from 'react';
-import ReactDOM    from 'react-dom';
-import { Players } from './../../imports/api/players';
-import PropTypes   from 'prop-types';
+import React from 'react';
+import PropTypes from 'prop-types';
+import {Players} from './../api/players';
 
 export default class Player extends React.Component {
   render() {
-    let player = this.props.player;
     return (
-      <p key={player._id}>
-        {player.name} has {player.score} point(s).
-        <button onClick={() => Players.update(player._id,{ $inc: { score: -1 } })}>-1</button>
-        <button onClick={() => Players.update(player._id,{ $inc: { score:  1 } })}>+1</button>
-        <button onClick={() => Players.remove({ _id: player._id })}>X</button>
-      </p>
+      <div key={this.props.player._id} className="item">
+        <div className="player">
+          <div>
+            <h3 className="player__name">{this.props.player.name}</h3>
+            <p className="player__stats">
+              {this.props.player.score} point(s).
+            </p>
+          </div>
+          <div className="player__actions">
+            <button className="button button--round" onClick={() => {
+              Players.update(this.props.player._id, {$inc: {score: -1}});
+            }}>-1</button>
+            <button className="button button--round" onClick={() => {
+              Players.update(this.props.player._id, {$inc: {score: 1}});
+            }}>+1</button>
+            <button className="button button--round" onClick={() => Players.remove(this.props.player._id)}>X</button>
+          </div>
+        </div>
+      </div>
     );
   }
-}
+};
 
+// Setup prop types. player should be a required object
 Player.propTypes = {
   player: PropTypes.object.isRequired
 };
